@@ -1,4 +1,4 @@
-// prevent overflow x axis (no white bars on the edges)
+// prevent overflow x axis (no white bars on the edges
 document.documentElement.style.overflowX = "hidden";
 document.getElementsByTagName("BODY")[0].style.overflowX = "hidden";
 
@@ -16,7 +16,8 @@ if (isMobile == false){
     var parxArgs = [];
     for (let i = 0; i < parx.length; i++){
         // fix an issue with line fragments on safari by adding a transparent border
-        //parx[i].style.outline = "1px solid transparent";
+        // the code to fadein has made this unnecessary weather fadein is used or not
+        // parx[i].style.outline = "1px solid transparent";
     
         // get the class with arguments
         var parxClasses = parx[i].className.split(' ');
@@ -26,24 +27,51 @@ if (isMobile == false){
         // separate the args
         var classArgs = theClass.split('|');
         // for each parx element, create an object with its args
+        // these are the main arguments for parx
         parxArgs[i] = {}
         parxArgs[i].mode = classArgs[1];
         parxArgs[i].x = parseFloat(classArgs[2]);
         parxArgs[i].y = parseFloat(classArgs[3]);
         parxArgs[i].triggerHeight = parseFloat(classArgs[4]);
         parxArgs[i].duration = parseFloat(classArgs[5]);
+        parxArgs[i].delay = parseFloat(classArgs[6]);
+
+        // optional fadein class
         if (parxClasses.includes('fadein')){
             parxArgs[i].fadein = 0;
         } else {
             parxArgs[i].fadein = 1;
         }
-        parxArgs[i].delay = parseFloat(classArgs[6]);
+
+        // optional grow size
+        var sizeClass = parxClasses.filter((parxClass) => parxClass.startsWith("parxsize"))
+        if (sizeClass.length > 0)
+        {
+            var sizeClassArgs = sizeClass[0].split('|')
+            parxArgs[i].scale = true;
+            parxArgs[i].scaleX = parseFloat(sizeClassArgs[1]);
+            parxArgs[i].scaleY = parseFloat(sizeClassArgs[2]);
+            parxArgs[i].scaleOriginX = parseFloat(sizeClassArgs[3]);
+            parxArgs[i].scaleOriginY = parseFloat(sizeClassArgs[4]);
+        } else {
+            parxArgs[i].scale = false;
+            parxArgs[i].scaleX = 1;
+            parxArgs[i].scaleY = 1;
+        }
     }
 
+    // create a controller for the page
     var controller = new ScrollMagic.Controller();
     
     for (let i = 0; i < parx.length; i++){
-        let tweenArgs = {transform: `matrix(1, 0, 0, 1, ${parxArgs[i].x}, ${parxArgs[i].y})`, ease: "power1.inOut", opacity: parxArgs[i].fadein, delay: parxArgs[i].delay}
+        // if scale is being changed then edit the transformation origin
+        if (parxArgs[i].scale)
+        {
+            parx[i].style.transformOrigin = `${parxArgs[i].scaleOriginX}% ${parxArgs[i].scaleOriginY}%`;
+        }
+        // matrix to go to/from
+        let tweenArgs = {transform: `matrix(${parxArgs[i].scaleX}, 0, 0, ${parxArgs[i].scaleY}, ${parxArgs[i].x}, ${parxArgs[i].y})`, ease: "power1.inOut", opacity: parxArgs[i].fadein, delay: parxArgs[i].delay}
+        // set the tween with the matrix
         let tween = null;
         if (parxArgs[i].mode == 'from'){
             tween = gsap.from(parx[i], tweenArgs);
