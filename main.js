@@ -40,6 +40,14 @@ if (isMobile == false){
             parxArgs[i].ptrig = false;
         }
 
+        var easeClass = parxClasses.filter((parxClass) => parxClass.startsWith("parxease"));
+        if (easeClass.length > 0){
+            var easeClassArgs = easeClass[0].split('|');
+            parxArgs[i].ease = easeClassArgs[1] + '.' + easeClassArgs[2];
+        } else {
+            parxArgs[i].ease = 'none';
+        }
+
         // optional grow size
         var slideClass = parxClasses.filter((parxClass) => parxClass.startsWith("parxslide"));
         if (slideClass.length > 0){
@@ -87,7 +95,7 @@ if (isMobile == false){
             parx[i].style.transformOrigin = `${parxArgs[i].scaleOriginX}% ${parxArgs[i].scaleOriginY}%`;
         }
         // matrix to go to/from
-        let tweenArgs = {transform: `matrix(${parxArgs[i].scaleX}, 0, 0, ${parxArgs[i].scaleY}, ${parxArgs[i].x}, ${parxArgs[i].y})`, ease: "power1.inOut", opacity: parxArgs[i].fade}
+        let tweenArgs = {transform: `matrix(${parxArgs[i].scaleX}, 0, 0, ${parxArgs[i].scaleY}, ${parxArgs[i].x}, ${parxArgs[i].y})`, ease: `${parxArgs[i].ease}`, opacity: parxArgs[i].fade}
         // set the tween with the matrix
         let tween = null;
         if (parxArgs[i].mode == 'from'){
