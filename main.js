@@ -16,8 +16,7 @@ if (isMobile == false){
     var parxArgs = [];
     for (let i = 0; i < parx.length; i++){
         // fix an issue with line fragments on safari by adding a transparent border
-        // the code to fadein has made this unnecessary weather fadein is used or not
-        // parx[i].style.outline = "1px solid transparent";
+        parx[i].style.outline = "50px solid transparent";
     
         // get the class with arguments
         var parxClasses = parx[i].className.split(' ');
