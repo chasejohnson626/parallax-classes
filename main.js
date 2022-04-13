@@ -36,6 +36,7 @@ if (isMobile == false){
         // optional grow size
         var slideClass = parxClasses.filter((parxClass) => parxClass.startsWith("parxslide"));
         if (slideClass.length > 0){
+            // change args if slideClass exists
             var slideClassArgs = slideClass[0].split('|');
             parxArgs[i].x = parseFloat(slideClassArgs[1]);
             parxArgs[i].y = parseFloat(slideClassArgs[2]);
@@ -51,10 +52,11 @@ if (isMobile == false){
             parxArgs[i].fade = 1;
         }
 
-        // optional grow size
+        // optional size class
         var sizeClass = parxClasses.filter((parxClass) => parxClass.startsWith("parxsize"));
         if (sizeClass.length > 0)
         {
+            // change args if sizeClass exists
             var sizeClassArgs = sizeClass[0].split('|');
             parxArgs[i].scale = true;
             parxArgs[i].scaleX = parseFloat(sizeClassArgs[1]);
