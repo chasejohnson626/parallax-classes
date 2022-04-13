@@ -98,9 +98,9 @@ if (isMobile == false){
         // set the tween with the matrix
         let tween = null;
         if (parxArgs[i].mode == 'from'){
-            tween = gsap.from(parx[i], tweenArgs);
+            tween = TweenMax.from(parx[i], tweenArgs);
         } else if (parxArgs[i].mode == 'to'){
-            tween = gsap.to(parx[i], tweenArgs);
+            tween = TweenMax.to(parx[i], tweenArgs);
         }
 
         let triggerNode = null;
