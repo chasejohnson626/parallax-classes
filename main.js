@@ -95,7 +95,7 @@ if (isMobile == false){
             parx[i].style.transformOrigin = `${parxArgs[i].scaleOriginX}% ${parxArgs[i].scaleOriginY}%`;
         }
         // matrix to go to/from
-        let tweenArgs = {transform: `matrix(${parxArgs[i].scaleX}, 0, 0, ${parxArgs[i].scaleY}, ${parxArgs[i].x}, ${parxArgs[i].y})`, ease: `${parxArgs[i].ease}`, opacity: parxArgs[i].fade}
+        let tweenArgs = {transform: `translate3d(${parxArgs[i].x}px, ${parxArgs[i].y}px, 0) scale3d(${parxArgs[i].scaleX}, ${parxArgs[i].scaleY}, 0)`, ease: `${parxArgs[i].ease}`, opacity: parxArgs[i].fade}
         // set the tween with the matrix
         let tween = null;
         if (parxArgs[i].mode == 'from'){
