@@ -43,14 +43,6 @@ if (isMobile == false){
             parxArgs[i].x = 0;
             parxArgs[i].y = 0;
         }
-        
-        var offsetClass = parxClasses.filter((parxClass) => parxClass.startsWith("parxoffset"));
-        if (offsetClass.length > 0){
-            var offsetClassArgs = offsetClass[0].split('|');
-            parxArgs[i].offset = parseFloat(offsetClassArgs[1]);
-        } else {
-            parxArgs[i].offset = 0;
-        }
 
         // optional fade class
         if (parxClasses.includes('parxfade')){
@@ -102,7 +94,7 @@ if (isMobile == false){
         var ourScene = new ScrollMagic.Scene({
             // a parent element can also be used rather than creating a trigger div
             triggerElement: newNode, //parx[i].parentElement
-            triggerHook: parxArgs[i].triggerHeight + parxArgs[i].offset,
+            triggerHook: parxArgs[i].triggerHeight,
             duration: screen.height * parxArgs[i].duration
         })
         .setTween(tween)
