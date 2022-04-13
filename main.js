@@ -33,6 +33,13 @@ if (isMobile == false){
         parxArgs[i].triggerHeight = parseFloat(classArgs[2]);
         parxArgs[i].duration = parseFloat(classArgs[3]);
         
+        // optional parent trigger
+        if (parxClasses.includes('parxptrig')){
+            parxArgs[i].ptrig = true;
+        } else {
+            parxArgs[i].ptrig = false;
+        }
+
         // optional grow size
         var slideClass = parxClasses.filter((parxClass) => parxClass.startsWith("parxslide"));
         if (slideClass.length > 0){
@@ -89,13 +96,19 @@ if (isMobile == false){
             tween = gsap.to(parx[i], tweenArgs);
         }
 
+        let triggerNode = null;
         //create a trigger element that doesn't move to fix issues with vertical parallax
-        let newNode = document.createElement("div");
-        parx[i].parentElement.insertBefore(newNode, parx[i]);
+        if (parxArgs[i].ptrig == false){
+            let newNode = document.createElement("div");
+            parx[i].parentElement.insertBefore(newNode, parx[i]);
+            triggerNode = newNode;
+        } else {
+            triggerNode = parx[i].parentElement;
+        }
         
         var ourScene = new ScrollMagic.Scene({
             // a parent element can also be used rather than creating a trigger div
-            triggerElement: newNode, //parx[i].parentElement
+            triggerElement: triggerNode, 
             triggerHook: parxArgs[i].triggerHeight,
             duration: screen.height * parxArgs[i].duration
         })
