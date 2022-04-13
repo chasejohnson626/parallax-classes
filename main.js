@@ -28,26 +28,42 @@ if (isMobile == false){
         var classArgs = theClass.split('|');
         // for each parx element, create an object with its args
         // these are the main arguments for parx
-        parxArgs[i] = {}
+        parxArgs[i] = {};
         parxArgs[i].mode = classArgs[1];
-        parxArgs[i].x = parseFloat(classArgs[2]);
-        parxArgs[i].y = parseFloat(classArgs[3]);
-        parxArgs[i].triggerHeight = parseFloat(classArgs[4]);
-        parxArgs[i].duration = parseFloat(classArgs[5]);
-        parxArgs[i].delay = parseFloat(classArgs[6]);
-
-        // optional fadein class
-        if (parxClasses.includes('fadein')){
-            parxArgs[i].fadein = 0;
+        parxArgs[i].triggerHeight = parseFloat(classArgs[2]);
+        parxArgs[i].duration = parseFloat(classArgs[3]);
+        
+        // optional grow size
+        var slideClass = parxClasses.filter((parxClass) => parxClass.startsWith("parxslide"));
+        if (slideClass.length > 0){
+            var slideClassArgs = slideClass[0].split('|');
+            parxArgs[i].x = parseFloat(slideClassArgs[1]);
+            parxArgs[i].y = parseFloat(slideClassArgs[2]);
         } else {
-            parxArgs[i].fadein = 1;
+            parxArgs[i].x = 0;
+            parxArgs[i].y = 0;
+        }
+        
+        var offsetClass = parxClasses.filter((parxClass) => parxClass.startsWith("parxoffset"));
+        if (offsetClass.length > 0){
+            var offsetClassArgs = offsetClass[0].split('|');
+            parxArgs[i].offset = parseFloat(offsetClassArgs[1]);
+        } else {
+            parxArgs[i].offset = 0;
+        }
+
+        // optional fade class
+        if (parxClasses.includes('parxfade')){
+            parxArgs[i].fade = 0;
+        } else {
+            parxArgs[i].fade = 1;
         }
 
         // optional grow size
-        var sizeClass = parxClasses.filter((parxClass) => parxClass.startsWith("parxsize"))
+        var sizeClass = parxClasses.filter((parxClass) => parxClass.startsWith("parxsize"));
         if (sizeClass.length > 0)
         {
-            var sizeClassArgs = sizeClass[0].split('|')
+            var sizeClassArgs = sizeClass[0].split('|');
             parxArgs[i].scale = true;
             parxArgs[i].scaleX = parseFloat(sizeClassArgs[1]);
             parxArgs[i].scaleY = parseFloat(sizeClassArgs[2]);
@@ -70,7 +86,7 @@ if (isMobile == false){
             parx[i].style.transformOrigin = `${parxArgs[i].scaleOriginX}% ${parxArgs[i].scaleOriginY}%`;
         }
         // matrix to go to/from
-        let tweenArgs = {transform: `matrix(${parxArgs[i].scaleX}, 0, 0, ${parxArgs[i].scaleY}, ${parxArgs[i].x}, ${parxArgs[i].y})`, ease: "power1.inOut", opacity: parxArgs[i].fadein, delay: parxArgs[i].delay}
+        let tweenArgs = {transform: `matrix(${parxArgs[i].scaleX}, 0, 0, ${parxArgs[i].scaleY}, ${parxArgs[i].x}, ${parxArgs[i].y})`, ease: "power1.inOut", opacity: parxArgs[i].fade}
         // set the tween with the matrix
         let tween = null;
         if (parxArgs[i].mode == 'from'){
@@ -86,7 +102,7 @@ if (isMobile == false){
         var ourScene = new ScrollMagic.Scene({
             // a parent element can also be used rather than creating a trigger div
             triggerElement: newNode, //parx[i].parentElement
-            triggerHook: parxArgs[i].triggerHeight,
+            triggerHook: parxArgs[i].triggerHeight + parxArgs[i].offset,
             duration: screen.height * parxArgs[i].duration
         })
         .setTween(tween)
