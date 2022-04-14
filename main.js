@@ -10,7 +10,6 @@ if(/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine
 }
 
 if (isMobile == false){
-    ScrollTrigger.normalizeScroll(true);
     var styles = `
         .parx{
             will-change: transform;
@@ -26,9 +25,6 @@ if (isMobile == false){
 
     var parxArgs = [];
     for (let i = 0; i < parx.length; i++){
-        // fix an issue with line fragments on safari by adding a transparent border
-        parx[i].style.outline = "50px solid transparent";
-    
         // get the class with arguments
         var parxClasses = parx[i].className.split(' ');
         var theClass = parxClasses.filter((parxClass) => parxClass.startsWith("parxa"));
