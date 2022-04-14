@@ -12,7 +12,7 @@ if(/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine
 if (isMobile == false){
     var styles = `
         .parx{
-            will-change: transform;
+            will-change: transform, opacity;
         }
     `
 
