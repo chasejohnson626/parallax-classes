@@ -10,6 +10,17 @@ if(/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine
 }
 
 if (isMobile == false){
+    ScrollTrigger.normalizeScroll(true);
+    var styles = `
+        .parx{
+            will-change: transform;
+        }
+    `
+
+    var styleSheet = document.createElement("style")
+    styleSheet.innerText = styles
+    document.head.appendChild(styleSheet)
+
     // get all elements with "parx" class
     var parx = document.getElementsByClassName('parx');
 
