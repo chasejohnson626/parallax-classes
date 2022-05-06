@@ -79,15 +79,33 @@ if (isMobile == false){
         {
             // change args if sizeClass exists
             var sizeClassArgs = sizeClass[0].split('|');
-            parxArgs[i].scale = true;
             parxArgs[i].scaleX = parseFloat(sizeClassArgs[1]);
             parxArgs[i].scaleY = parseFloat(sizeClassArgs[2]);
-            parxArgs[i].scaleOriginX = parseFloat(sizeClassArgs[3]);
-            parxArgs[i].scaleOriginY = parseFloat(sizeClassArgs[4]);
         } else {
-            parxArgs[i].scale = false;
             parxArgs[i].scaleX = 1;
             parxArgs[i].scaleY = 1;
+        }
+
+        var rotateClass = parxClasses.filter((parxClass) => parxClass.startsWith("parxrotate"));
+        if (rotateClass.length > 0)
+        {
+            // change args if rotateClass exists
+            var rotateClassArgs = rotateClass[0].split('|');
+            parxArgs[i].rotate = parseFloat(rotateClassArgs[1]);
+        } else {
+            parxArgs[i].rotate = 0;
+        }
+
+        var originClass = parxClasses.filter((parxClass) => parxClass.startsWith("parxorigin"));
+        if (originClass.length > 0)
+        {
+            // change args if originClass exists
+            var originClassArgs = originClass[0].split('|');
+            parxArgs[i].originX = parseFloat(originClassArgs[1]);
+            parxArgs[i].originY = parseFloat(originClassArgs[2]);
+        } else {
+            parxArgs[i].originX = 50;
+            parxArgs[i].originY = 50;
         }
     }
 
@@ -96,12 +114,9 @@ if (isMobile == false){
     
     for (let i = 0; i < parx.length; i++){
         // if scale is being changed then edit the transformation origin
-        if (parxArgs[i].scale)
-        {
-            parx[i].style.transformOrigin = `${parxArgs[i].scaleOriginX}% ${parxArgs[i].scaleOriginY}%`;
-        }
+        parx[i].style.transformOrigin = `${parxArgs[i].originX}% ${parxArgs[i].originY}%`;
         // matrix to go to/from
-        let tweenArgs = {transform: `translate3d(${parxArgs[i].x}px, ${parxArgs[i].y}px, 0) scale3d(${parxArgs[i].scaleX}, ${parxArgs[i].scaleY}, 0)`, ease: `${parxArgs[i].ease}`, opacity: parxArgs[i].fade}
+        let tweenArgs = {transform: `translate3d(${parxArgs[i].x}px, ${parxArgs[i].y}px, 0) scale3d(${parxArgs[i].scaleX}, ${parxArgs[i].scaleY}, 0) rotateZ(${parxArgs[i].rotate}deg)`, ease: `${parxArgs[i].ease}`, opacity: parxArgs[i].fade}
         // set the tween with the matrix
         let tween = null;
         if (parxArgs[i].mode == 'from'){
